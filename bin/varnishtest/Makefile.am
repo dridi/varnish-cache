@@ -1,5 +1,5 @@
 #
-
+AM_TESTS_ENVIRONMENT = MALLOC_CONF=abort:true,redzone:true,junk:true
 VTC_LOG_COMPILER = ./varnishtest -v -i
 TEST_EXTENSIONS = .vtc
 TESTS = @VTC_TESTS@
