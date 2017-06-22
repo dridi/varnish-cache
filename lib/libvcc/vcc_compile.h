@@ -341,8 +341,9 @@ void vcc_ParseImport(struct vcc *tl);
 void vcc_ParseNew(struct vcc *tl);
 
 /* vcc_xref.c */
+struct symbol *vcc_AddRef(struct vcc *tl, const struct token *t,
+    enum symkind type);
 int vcc_AddDef(struct vcc *tl, const struct token *t, enum symkind type);
-void vcc_AddRef(struct vcc *tl, const struct token *t, enum symkind type);
 int vcc_CheckReferences(struct vcc *tl);
 void VCC_XrefTable(struct vcc *);
 

@@ -229,7 +229,7 @@ vcc_ParseFunction(struct vcc *tl)
 		tl->fb = tl->fm[m];
 		if (tl->mprocs[m] == NULL) {
 			(void)vcc_AddDef(tl, tl->t, SYM_SUB);
-			vcc_AddRef(tl, tl->t, SYM_SUB);
+			(void)vcc_AddRef(tl, tl->t, SYM_SUB);
 			tl->mprocs[m] = vcc_AddProc(tl, tl->t);
 		}
 		tl->curproc = tl->mprocs[m];
