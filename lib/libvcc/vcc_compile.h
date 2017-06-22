@@ -120,6 +120,7 @@ struct symbol {
 	struct symbol			*parent;
 	const char			*vmod;
 
+	char				*cname;
 	char				*name;
 	unsigned			nlen;
 	sym_wildcard_t			*wildcard;

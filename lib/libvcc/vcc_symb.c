@@ -62,6 +62,43 @@ VCC_SymKind(struct vcc *tl, const struct symbol *s)
 	}
 }
 
+static char *
+vcc_c_symbol(struct vcc *tl, const char *b, const char *e)
+{
+	const char *t;
+	char *p, *c;
+	unsigned len;
+
+	for (t = b, len = 0; t < e; t++) {
+		if (*t == '-' || *t == '_')
+			len += 4;
+		else
+			len++;
+	}
+
+	c = TlAlloc(tl, len + 1);
+	for (p = c; b < e; b++)
+		switch (*b) {
+		case '-':
+			memcpy(p, "_2d_", 4);
+			p += 4;
+			break;
+		case '_':
+			memcpy(p, "_5f_", 4);
+			p += 4;
+			break;
+		default:
+			*p = *b;
+			p++;
+			break;
+		}
+
+	assert(p == c + len);
+	*p = '\0';
+
+	return (c);
+}
+
 static struct symbol *
 vcc_new_symbol(struct vcc *tl, const char *b, const char *e)
 {
@@ -75,6 +112,7 @@ vcc_new_symbol(struct vcc *tl, const char *b, const char *e)
 	sym = TlAlloc(tl, sizeof *sym);
 	INIT_OBJ(sym, SYMBOL_MAGIC);
 	AN(sym);
+	sym->cname = vcc_c_symbol(tl, b, e);
 	sym->name = TlAlloc(tl, (e - b) + 1L);
 	AN(sym->name);
 	memcpy(sym->name, b, (e - b));
