@@ -457,7 +457,6 @@ vcc_ParseBackend(struct vcc *tl)
 {
 	struct token *t_first, *t_be;
 	struct symbol *sym;
-	char vgcname[MAX_BACKEND_NAME + 20];
 
 	t_first = tl->t;
 	vcc_NextToken(tl);		/* ID: backend */
@@ -465,6 +464,7 @@ vcc_ParseBackend(struct vcc *tl)
 	vcc_ExpectCid(tl, "backend");	/* ID: name */
 	ERRCHK(tl);
 
+	/* XXX: lift this limit once VSM ident becomes dynamic */
 	if (tl->t->e - tl->t->b > MAX_BACKEND_NAME) {
 		VSB_printf(tl->sb,
 		    "Name of %.*s too long (max %d, is %zu):\n",
@@ -477,13 +477,12 @@ vcc_ParseBackend(struct vcc *tl)
 	t_be = tl->t;
 	vcc_NextToken(tl);
 
-	bprintf(vgcname, "vgc_backend_%.*s", PF(t_be));
-	Fh(tl, 0, "\nstatic struct director *%s;\n", vgcname);
-
 	sym = VCC_HandleSymbol(tl, t_be, BACKEND, "vgc_backend");
 	ERRCHK(tl);
 
-	vcc_ParseHostDef(tl, t_be, vgcname);
+	Fh(tl, 0, "\nstatic struct director *%s;\n", sym->rname);
+
+	vcc_ParseHostDef(tl, t_be, sym->rname);
 	ERRCHK(tl);
 
 	if (tl->err) {
