@@ -30,8 +30,10 @@
 
 #include "config.h"
 
+#include <stdlib.h>
 #include <stdint.h>
 
+#include "vas.h"
 #include "vct.h"
 
 /* NB: VCT always operate in ASCII, don't replace 0x0d with \r etc. */
@@ -232,3 +234,27 @@ const uint16_t vct_typtab[256] = {
 	[0xfe]	=	VCT_XMLNAMESTART,
 	[0xff]	=	VCT_XMLNAMESTART,
 };
+
+const char *
+VCT_bad_name(const char *b, const char *e)
+{
+
+	AN(b);
+	if (e != NULL)
+		assert(b < e);
+
+	if (!vct_isalpha(*b))
+		return (b);
+
+	while (++b != e && *b != '\0')
+		if (!vct_isalpha(*b) &&
+		    !vct_isdigit(*b) &&
+		    *b != '_' &&
+		    *b != '-')
+			return (b);
+
+	if (*b == '\0' && e != NULL)
+		return (b);
+
+	return (NULL);
+}
