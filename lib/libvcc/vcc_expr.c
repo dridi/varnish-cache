@@ -1146,6 +1146,7 @@ vcc_expr_cmp(struct vcc *tl, struct expr **e, vcc_type_t fmt)
 {
 	struct expr *e2;
 	const struct cmps *cp;
+	const struct symbol *sym;
 	char buf[256];
 	const char *re;
 	const char *not;
@@ -1203,9 +1204,8 @@ vcc_expr_cmp(struct vcc *tl, struct expr **e, vcc_type_t fmt)
 		not = tl->t->tok == '~' ? "" : "!";
 		vcc_NextToken(tl);
 		vcc_ExpectCid(tl, "ACL");
-		(void)vcc_AddRef(tl, tl->t, SYM_ACL);
-		bprintf(buf, "%smatch_acl_named_%.*s(ctx, \v1)",
-		    not, PF(tl->t));
+		sym = vcc_AddRef(tl, tl->t, SYM_ACL);
+		bprintf(buf, "%smatch_acl_named_%s(ctx, \v1)", not, sym->name);
 		vcc_NextToken(tl);
 		*e = vcc_expr_edit(BOOL, buf, *e, NULL);
 		return;

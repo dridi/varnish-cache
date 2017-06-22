@@ -473,7 +473,7 @@ void
 vcc_ParseAcl(struct vcc *tl)
 {
 	struct token *an;
-	char *acln;
+	struct symbol *sym;
 
 	vcc_NextToken(tl);
 	VTAILQ_INIT(&tl->acl);
@@ -483,10 +483,9 @@ vcc_ParseAcl(struct vcc *tl)
 	an = tl->t;
 	vcc_NextToken(tl);
 
-	acln = TlDupTok(tl, an);
-
-	(void)VCC_HandleSymbol(tl, an, ACL, "&vrt_acl_named");
+	sym = VCC_HandleSymbol(tl, an, ACL, "&vrt_acl_named");
 	ERRCHK(tl);
+	AN(sym);
 
 	SkipToken(tl, '{');
 
@@ -497,5 +496,5 @@ vcc_ParseAcl(struct vcc *tl)
 	}
 	SkipToken(tl, '}');
 
-	vcc_acl_emit(tl, acln, 0);
+	vcc_acl_emit(tl, sym->name, 0); /* XXX: use cname instead */
 }

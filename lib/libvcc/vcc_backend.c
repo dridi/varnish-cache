@@ -91,7 +91,7 @@ vcc_ProbeRedef(struct vcc *tl, struct token **t_did,
 }
 
 static void
-vcc_ParseProbeSpec(struct vcc *tl, const struct token *nm, char **name)
+vcc_ParseProbeSpec(struct vcc *tl, const struct symbol *sym, char **name)
 {
 	struct fld_spec *fs;
 	struct token *t_field;
@@ -117,15 +117,19 @@ vcc_ParseProbeSpec(struct vcc *tl, const struct token *nm, char **name)
 
 	vsb = VSB_new_auto();
 	AN(vsb);
-	if (nm != NULL)
-		VSB_printf(vsb, "vgc_probe_%.*s", PF(nm));
+	if (sym != NULL)
+		VSB_cat(vsb, sym->rname);
 	else
 		VSB_printf(vsb, "vgc_probe__%d", tl->nprobe++);
 	AZ(VSB_finish(vsb));
 	retval = TlDup(tl, VSB_data(vsb));
+	AN(retval);
 	VSB_destroy(&vsb);
 	if (name != NULL)
 		*name = retval;
+
+	if (*retval == '&') /* named probes come with one of those */
+		retval++;
 
 	window = 0;
 	threshold = 0;
@@ -249,6 +253,7 @@ void
 vcc_ParseProbe(struct vcc *tl)
 {
 	struct token *t_probe;
+	struct symbol *sym;
 	char *p;
 
 	vcc_NextToken(tl);			/* ID: probe */
@@ -258,10 +263,11 @@ vcc_ParseProbe(struct vcc *tl)
 	t_probe = tl->t;
 	vcc_NextToken(tl);
 
-	(void)VCC_HandleSymbol(tl, t_probe, PROBE, "&vgc_probe");
+	sym = VCC_HandleSymbol(tl, t_probe, PROBE, "&vgc_probe");
 	ERRCHK(tl);
+	AN(sym);
 
-	vcc_ParseProbeSpec(tl, t_probe, &p);
+	vcc_ParseProbeSpec(tl, sym, &p);
 	if (vcc_IdIs(t_probe, "default")) {
 		(void)vcc_AddRef(tl, t_probe, SYM_PROBE);
 		tl->default_probe = p;
@@ -282,6 +288,7 @@ vcc_ParseHostDef(struct vcc *tl, const struct token *t_be, const char *vgcname)
 	struct token *t_host = NULL;
 	struct token *t_port = NULL;
 	struct token *t_hosthdr = NULL;
+	struct symbol *pb;
 	struct fld_spec *fs;
 	struct inifin *ifp;
 	struct vsb *vsb;
@@ -388,13 +395,14 @@ vcc_ParseHostDef(struct vcc *tl, const struct token *t_be, const char *vgcname)
 			Fb(tl, 0, "\t.probe = &%s,\n", p);
 			ERRCHK(tl);
 		} else if (vcc_IdIs(t_field, "probe") && tl->t->tok == ID) {
-			if (!VCC_SymbolTok(tl, NULL, tl->t, SYM_PROBE, 0)) {
+			pb = VCC_SymbolTok(tl, NULL, tl->t, SYM_PROBE, 0);
+			if (pb == NULL) {
 				VSB_printf(tl->sb, "Probe %.*s not found\n",
 				    PF(tl->t));
 				vcc_ErrWhere(tl, tl->t);
 				return;
 			}
-			Fb(tl, 0, "\t.probe = &vgc_probe_%.*s,\n", PF(tl->t));
+			Fb(tl, 0, "\t.probe = %s,\n", pb->rname);
 			(void)vcc_AddRef(tl, tl->t, SYM_PROBE);
 			vcc_NextToken(tl);
 			SkipToken(tl, ';');
