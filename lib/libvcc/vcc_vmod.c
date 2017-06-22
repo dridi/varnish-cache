@@ -282,7 +282,7 @@ vcc_ParseNew(struct vcc *tl)
 	ExpectErr(tl, ID);
 	vcc_ExpectCid(tl, "VCL object");
 	ERRCHK(tl);
-	sy1 = VCC_HandleSymbol(tl, tl->t, INSTANCE, "XXX");
+	sy1 = VCC_HandleSymbol(tl, tl->t, INSTANCE, NULL);
 	ERRCHK(tl);
 
 	/* We allow implicit use of VMOD objects:  Pretend it's ref'ed */
