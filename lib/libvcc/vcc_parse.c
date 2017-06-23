@@ -209,6 +209,7 @@ vcc_Compound(struct vcc *tl)
 static void
 vcc_ParseFunction(struct vcc *tl)
 {
+	struct symbol *sym;
 	int m, i;
 
 	vcc_NextToken(tl);
@@ -238,18 +239,17 @@ vcc_ParseFunction(struct vcc *tl)
 		Fb(tl, 0, " */\n");
 	} else {
 		tl->fb = tl->fc;
-		i = vcc_AddDef(tl, tl->t, SYM_SUB);
-		if (i > 1) {
+		sym = vcc_AddDef(tl, tl->t, SYM_SUB);
+		if (sym->ndef > 1) {
 			VSB_printf(tl->sb,
 			    "Function '%.*s' redefined\n", PF(tl->t));
 			vcc_ErrWhere(tl, tl->t);
 			return;
 		}
 		tl->curproc = vcc_AddProc(tl, tl->t);
-		Fh(tl, 0, "void VGC_function_%.*s(VRT_CTX);\n", PF(tl->t));
+		Fh(tl, 0, "void VGC_function_%s(VRT_CTX);\n", sym->name);
 		Fc(tl, 1, "\nvoid __match_proto__(vcl_func_t)\n");
-		Fc(tl, 1, "VGC_function_%.*s(VRT_CTX)\n",
-		    PF(tl->t));
+		Fc(tl, 1, "VGC_function_%s(VRT_CTX)\n", sym->name);
 	}
 	vcc_NextToken(tl);
 	tl->indent += INDENT;

@@ -42,12 +42,13 @@
 static void
 parse_call(struct vcc *tl)
 {
+	struct symbol *sym;
 
 	vcc_NextToken(tl);
 	ExpectErr(tl, ID);
 	vcc_AddCall(tl, tl->t);
-	(void)vcc_AddRef(tl, tl->t, SYM_SUB);
-	Fb(tl, 1, "VGC_function_%.*s(ctx);\n", PF(tl->t));
+	sym = vcc_AddRef(tl, tl->t, SYM_SUB);
+	Fb(tl, 1, "VGC_function_%s(ctx);\n", sym->name);
 	vcc_NextToken(tl);
 }
 

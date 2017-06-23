@@ -86,7 +86,7 @@ vcc_AddRef(struct vcc *tl, const struct token *t, enum symkind kind)
 	return (sym);
 }
 
-int
+struct symbol *
 vcc_AddDef(struct vcc *tl, const struct token *t, enum symkind kind)
 {
 	struct symbol *sym;
@@ -96,7 +96,7 @@ vcc_AddDef(struct vcc *tl, const struct token *t, enum symkind kind)
 		sym->def_b = t;
 	AN(sym);
 	sym->ndef++;
-	return (sym->ndef);
+	return (sym);
 }
 
 /*--------------------------------------------------------------------*/
