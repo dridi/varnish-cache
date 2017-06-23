@@ -328,8 +328,8 @@ vcc_Parse(struct vcc *tl)
 	if (tl->t->tok != ID || !vcc_IdIs(tl->t, "vcl")) {
 		VSB_printf(tl->sb,
 		    "VCL version declaration missing\n"
-		    "Update your VCL to Version 4 syntax, and add\n"
-		    "\tvcl 4.0;\n"
+		    "Update your VCL to Version 6 syntax, and add\n"
+		    "\tvcl 6.0;\n"
 		    "on the first line of the VCL files.\n"
 		);
 		vcc_ErrWhere(tl, tl->t);
@@ -337,7 +337,7 @@ vcc_Parse(struct vcc *tl)
 	}
 	tok = tl->t;
 	vcc_ParseVcl(tl);
-	if (tok->src->syntax != 4.0) {
+	if (tok->src->syntax != 6.0) {
 		VSB_printf(tl->sb, "VCL version %.1f not supported.\n",
 		    tok->src->syntax);
 		vcc_ErrWhere2(tl, tok, tl->t);

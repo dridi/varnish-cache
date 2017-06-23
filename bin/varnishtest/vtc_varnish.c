@@ -298,7 +298,7 @@ varnish_new(const char *name)
 
 	REPLACE(v->jail, "");
 
-	v->syntax = 4.0;
+	v->syntax = 6.0;
 
 	v->vl = vtc_logopen(name);
 	AN(v->vl);
@@ -1013,7 +1013,7 @@ varnish_expect(struct varnish *v, char * const *av)
  *         Stop the child process.
  *
  * \-syntax
- *         Set the VCL syntax level (default: 4.0)
+ *         Set the VCL syntax level (default: 6.0)
  *
  * \-wait
  *         Wait for that instance to terminate.

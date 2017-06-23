@@ -115,8 +115,8 @@ at least one blank::
    106 258
    Message from VCC-compiler:
    VCL version declaration missing
-   Update your VCL to Version 4 syntax, and add
-           vcl 4.0;
+   Update your VCL to Version 6 syntax, and add
+           vcl 6.0;
    on the first line of the VCL files.
    ('<vcl.inline>' Line 1 Pos 1)
    <<EOF
@@ -129,7 +129,7 @@ With the missing space, the here document can be added and the actual VCL
 can be loaded::
 
    vcl.inline test << EOF
-   vcl 4.0;
+   vcl 6.0;
 
    backend be {
            .host = "localhost";
@@ -162,7 +162,7 @@ If you are quoting with a here document, you must wrap it inside a shell
 multi-line argument::
 
    varnishadm vcl.inline test '<< EOF
-   vcl 4.0;
+   vcl 6.0;
 
    backend be {
            .host = "localhost";
@@ -339,7 +339,7 @@ EXAMPLES
 Load a multi-line VCL using shell-style *here document*::
 
     vcl.inline example << EOF
-    vcl 4.0;
+    vcl 6.0;
 
     backend www {
         .host = "127.0.0.1";

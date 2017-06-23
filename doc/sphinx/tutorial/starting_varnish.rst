@@ -38,7 +38,7 @@ Fire up your favorite editor and edit `/etc/varnish/default.vcl`. Most
 of it is commented out but there is some text that is not. It will
 probably look like this::
 
-  vcl 4.0;
+  vcl 6.0;
 
   backend default {
       .host = "127.0.0.1";
@@ -48,7 +48,7 @@ probably look like this::
 We'll change it and make it point to something that works. Hopefully
 http://www.varnish-cache.org/ is up. Let's use that. Replace the text with::
 
-  vcl 4.0;
+  vcl 6.0;
 
   backend default {
       .host = "www.varnish-cache.org";

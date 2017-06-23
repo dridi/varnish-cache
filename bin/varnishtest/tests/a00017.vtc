@@ -8,7 +8,7 @@ delay 2
 
 shell {
 	(
-	echo 'vcl 4.0;'
+	echo 'vcl 6.0;'
 	echo 'backend default {'
 	echo '  .host="${bad_backend}";'
 	echo '}'
@@ -33,14 +33,14 @@ process p1 -stop -wait
 
 shell {
 	cat >${tmpdir}/ok1 <<-EOF
-	vcl 4.0;
+	vcl 6.0;
 	backend ok1 {
 	  .host="${bad_backend}";
 	}
 	EOF
 
 	cat >${tmpdir}/ok2 <<-EOF
-	vcl 4.0;
+	vcl 6.0;
 	backend ok2 {
 	  .host="${bad_backend}";
 	}

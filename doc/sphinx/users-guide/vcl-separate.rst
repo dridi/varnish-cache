@@ -38,10 +38,10 @@ request::
 	set req.http.host = std.tolower(req.http.host);
 
 	if (req.http.host ~ "\.?varnish\.org$") {
-	    return (vcl(l_vo));
+	    return (vcl(vcl.l_vo));
 	}
 	if (req.http.host ~ "\.?varnish-cache\.org$") {
-	    return (vcl(l_vc));
+	    return (vcl(vcl.l_vc));
 	}
 	return (synth(302, "http://varnish-cache.org"));
     }
@@ -78,15 +78,19 @@ Details, details, details:
 
 * All requests *always* start in the active VCL - the one from ``vcl.use``
 
-* Only VCL labels can be used in ``return(vcl(name))``.  Without this
+* Only VCL labels can be used in ``return(vcl(vcl.name))``.  Without this
   restriction the top level VCL would have to be reloaded every time
   one of the separate VCLs were changed.
+
+* Starting with Varnish 6.0, the label is localted in the ``vcl`` namespace
+  so previous occurrences of ``return(vcl(name))`` must be changed to
+  ``return(vcl(vcl.name))``.
 
 * You can only switch VCLs from the active VCL.  If you try it from one of
   the separate VCLs, you will get a 503
 
 * You cannot remove VCL labels (with ``vcl.discard``) if any VCL
-  contains ``return(vcl(name_of_that_label))``
+  contains ``return(vcl(vcl.name_of_that_label))``
 
 * You cannot remove VCLs which have a label attached to them.
 

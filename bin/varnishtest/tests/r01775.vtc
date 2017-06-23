@@ -9,4 +9,4 @@ varnish v1 -vcl+backend {
 
 } -start
 
-varnish v1 -cliok {vcl.inline vcl2 "vcl 4.0; backend b { .host = \":80\";}" cold}
+varnish v1 -cliok {vcl.inline vcl2 "vcl 6.0; backend b { .host = \":80\";}" cold}

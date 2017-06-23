@@ -1,7 +1,7 @@
 varnishtest "symbol lookup order issue"
 
 varnish v1 -errvcl {Name 'debug' already defined.} {
-	vcl 4.0;
+	vcl 6.0;
 	import debug;
 
 	backend debug {

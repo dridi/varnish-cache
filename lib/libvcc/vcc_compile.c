@@ -824,8 +824,10 @@ static void
 vcc_predef_vcl(struct vcc *vcc, const char *name)
 {
 	struct symbol *sym;
+	char buf[1024];
 
-	sym = VCC_Symbol(vcc, NULL, name, NULL, SYM_VCL, 1);
+	bprintf(buf, "vcl.%s", name);
+	sym = VCC_Symbol(vcc, NULL, buf, NULL, SYM_VCL, 1);
 	AN(sym);
 	sym->fmt = VCL;
 	sym->r_methods = VCL_MET_RECV;

@@ -9,8 +9,8 @@
 # and https://www.varnish-cache.org/trac/wiki/VCLExamples for more examples.
 
 # Marker to tell the VCL compiler that this VCL has been adapted to the
-# new 4.0 format.
-vcl 4.0;
+# new 6.0 format.
+vcl 6.0;
 
 # Default backend definition. Set this to point to your content server.
 backend default {

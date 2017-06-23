@@ -101,7 +101,7 @@ client c1 {
 	expect resp.http.bo1 == "b /snafu"
 } -run
 
-shell "echo 'vcl 4.0; backend foo { .host = \"${s1_addr}\"; .port = \"${s1_port}\"; }' > ${tmpdir}/_b00014.vcl"
+shell "echo 'vcl 6.0; backend foo { .host = \"${s1_addr}\"; .port = \"${s1_port}\"; }' > ${tmpdir}/_b00014.vcl"
 
 varnish v1 -cliok "vcl.load foo ${tmpdir}/_b00014.vcl" \
 	-cliok "vcl.use foo" \
