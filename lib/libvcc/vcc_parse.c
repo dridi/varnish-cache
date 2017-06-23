@@ -309,12 +309,12 @@ static struct toplev {
 	const char	*name;
 	parse_f		*func;
 } toplev[] = {
-	{ "acl",		vcc_ParseAcl },
-	{ "sub",		vcc_ParseFunction },
-	{ "backend",		vcc_ParseBackend },
-	{ "probe",		vcc_ParseProbe },
-	{ "import",		vcc_ParseImport },
-	{ "vcl",		vcc_ParseVcl },
+	{ "acl",	vcc_ParseAcl },
+	{ "backend",	vcc_ParseBackend },
+	{ "import",	vcc_ParseImport },
+	{ "probe",	vcc_ParseProbe },
+	{ "sub",	vcc_ParseFunction },
+	{ "vcl",	vcc_ParseVcl },
 	{ NULL, NULL }
 };
 
