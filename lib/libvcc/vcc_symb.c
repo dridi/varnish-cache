@@ -224,8 +224,7 @@ vcc_global(struct vcc *tl, struct symbol *sym, vcc_type_t fmt, const char *pfx)
 	if (pfx != NULL) {
 		vsb = VSB_new_auto();
 		AN(vsb);
-		/* XXX: eventually switch to sym->cname */
-		VSB_printf(vsb, "%s_%s", pfx, sym->name);
+		VSB_printf(vsb, "%s_%s", pfx, sym->cname);
 		AZ(VSB_finish(vsb));
 		if (tl != NULL)
 			sym->rname = TlDup(tl, VSB_data(vsb));

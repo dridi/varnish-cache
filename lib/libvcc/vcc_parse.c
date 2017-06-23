@@ -213,7 +213,7 @@ vcc_ParseFunction(struct vcc *tl)
 	int m, i;
 
 	vcc_NextToken(tl);
-	vcc_ExpectCid(tl, "function");
+	vcc_ExpectVid(tl, "function");
 	ERRCHK(tl);
 
 	m = IsMethod(tl->t);
@@ -247,9 +247,9 @@ vcc_ParseFunction(struct vcc *tl)
 			return;
 		}
 		tl->curproc = vcc_AddProc(tl, tl->t);
-		Fh(tl, 0, "void VGC_function_%s(VRT_CTX);\n", sym->name);
+		Fh(tl, 0, "void VGC_function_%s(VRT_CTX);\n", sym->cname);
 		Fc(tl, 1, "\nvoid __match_proto__(vcl_func_t)\n");
-		Fc(tl, 1, "VGC_function_%s(VRT_CTX)\n", sym->name);
+		Fc(tl, 1, "VGC_function_%s(VRT_CTX)\n", sym->cname);
 	}
 	vcc_NextToken(tl);
 	tl->indent += INDENT;

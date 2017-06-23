@@ -478,7 +478,7 @@ vcc_ParseAcl(struct vcc *tl)
 	vcc_NextToken(tl);
 	VTAILQ_INIT(&tl->acl);
 
-	vcc_ExpectCid(tl, "ACL");
+	vcc_ExpectVid(tl, "ACL");
 	ERRCHK(tl);
 	an = tl->t;
 	vcc_NextToken(tl);
@@ -496,5 +496,5 @@ vcc_ParseAcl(struct vcc *tl)
 	}
 	SkipToken(tl, '}');
 
-	vcc_acl_emit(tl, sym->name, 0); /* XXX: use cname instead */
+	vcc_acl_emit(tl, sym->cname, 0);
 }

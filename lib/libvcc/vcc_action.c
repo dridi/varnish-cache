@@ -48,7 +48,7 @@ parse_call(struct vcc *tl)
 	ExpectErr(tl, ID);
 	vcc_AddCall(tl, tl->t);
 	sym = vcc_AddRef(tl, tl->t, SYM_SUB);
-	Fb(tl, 1, "VGC_function_%s(ctx);\n", sym->name);
+	Fb(tl, 1, "VGC_function_%s(ctx);\n", sym->cname);
 	vcc_NextToken(tl);
 }
 

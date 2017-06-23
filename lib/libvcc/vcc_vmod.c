@@ -280,7 +280,7 @@ vcc_ParseNew(struct vcc *tl)
 
 	vcc_NextToken(tl);
 	ExpectErr(tl, ID);
-	vcc_ExpectCid(tl, "VCL object");
+	vcc_ExpectVid(tl, "VCL object");
 	ERRCHK(tl);
 	sy1 = VCC_HandleSymbol(tl, tl->t, INSTANCE, NULL);
 	ERRCHK(tl);
@@ -309,10 +309,10 @@ vcc_ParseNew(struct vcc *tl)
 	s_obj = p;
 	p += strlen(p) + 1;
 
-	Fh(tl, 0, "static %s *vo_%s;\n\n", p, sy1->name);
+	Fh(tl, 0, "static %s *vo_%s;\n\n", p, sy1->cname);
 	p += strlen(p) + 1;
 
-	bprintf(buf1, ", &vo_%s, \"%s\"", sy1->name, sy1->name);
+	bprintf(buf1, ", &vo_%s, \"%s\"", sy1->cname, sy1->name);
 	vcc_Eval_Func(tl, p, buf1, sy2);
 	ExpectErr(tl, ';');
 
@@ -322,14 +322,14 @@ vcc_ParseNew(struct vcc *tl)
 
 	ifp = New_IniFin(tl);
 	p += strlen(p) + 1;
-	VSB_printf(ifp->fin, "\t\t%s(&vo_%s);", p, sy1->name);
+	VSB_printf(ifp->fin, "\t\t%s(&vo_%s);", p, sy1->cname);
 
 	while (p[0] != '\0' || p[1] != '\0' || p[2] != '\0')
 		p++;
 	p += 3;
 
 	/* Instantiate symbols for the methods */
-	bprintf(buf1, ", vo_%s", sy1->name);
+	bprintf(buf1, ", vo_%s", sy1->cname);
 	while (*p != '\0') {
 		p += strlen(s_obj);
 		bprintf(buf2, "%s%s", sy1->name, p);
