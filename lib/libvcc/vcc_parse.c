@@ -314,6 +314,7 @@ static struct toplev {
 	{ "import",	vcc_ParseImport },
 	{ "probe",	vcc_ParseProbe },
 	{ "sub",	vcc_ParseFunction },
+	{ "table",	vcc_ParseTable },
 	{ "vcl",	vcc_ParseVcl },
 	{ NULL, NULL }
 };

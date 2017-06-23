@@ -582,3 +582,11 @@ vmod_purge(VRT_CTX, double ttl, double grace, double keep)
 	VSLb(ctx->vsl, SLT_VCL_Log, "PURGE");
 	VRT_purge(ctx, ttl, grace, keep);
 }
+
+VCL_BOOL
+vmod_table_lookup(VRT_CTX, VCL_TABLE table, VCL_STRING str)
+{
+
+	CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);
+	return (VRT_table_lookup(ctx, table, str));
+}

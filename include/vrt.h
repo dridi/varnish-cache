@@ -116,6 +116,7 @@ typedef const struct vrt_backend_probe *	VCL_PROBE;
 typedef double					VCL_REAL;
 typedef const struct stevedore *		VCL_STEVEDORE;
 typedef const char *				VCL_STRING;
+typedef const struct vrt_table *		VCL_TABLE;
 typedef double					VCL_TIME;
 typedef struct vcl *				VCL_VCL;
 typedef void					VCL_VOID;
@@ -288,6 +289,20 @@ struct vrt_acl {
 
 void VRT_acl_log(VRT_CTX, const char *msg);
 int VRT_acl_match(VRT_CTX, VCL_ACL, VCL_IP);
+
+/* table related */
+
+struct vrt_table_entry {
+	unsigned	len;
+	const char	*str;
+};
+
+struct vrt_table {
+	unsigned			len;
+	const struct vrt_table_entry	tbl[];
+};
+
+int VRT_table_lookup(VRT_CTX, VCL_TABLE table, VCL_STRING str);
 
 /* req related */
 

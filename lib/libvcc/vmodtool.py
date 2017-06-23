@@ -71,6 +71,7 @@ ctypes = {
 	'STEVEDORE':	"VCL_STEVEDORE",
 	'STRING':	"VCL_STRING",
 	'STRING_LIST':	"const char *, ...",
+	'TABLE':	"VCL_TABLE",
 	'TIME':		"VCL_TIME",
 	'VOID':		"VCL_VOID",
 }

@@ -140,6 +140,11 @@ const struct type STRING_LIST[1] = {{
 	.tostring =		"VRT_CollectString(ctx,\n\v1,\nvrt_magic_string_end)",
 }};
 
+const struct type TABLE[1] = {{
+	.magic =		TYPE_MAGIC,
+	.name =			"TABLE",
+}};
+
 const struct type TIME[1] = {{
 	.magic =		TYPE_MAGIC,
 	.name =			"TIME",

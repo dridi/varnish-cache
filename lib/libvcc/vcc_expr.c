@@ -805,6 +805,7 @@ vcc_expr4(struct vcc *tl, struct expr **e, vcc_type_t fmt)
 		case SYM_BACKEND:
 		case SYM_STEVEDORE:
 		case SYM_PROBE:
+		case SYM_TABLE:
 			AN(sym->eval);
 			AZ(*e);
 			sym->eval(tl, e, sym, fmt);
@@ -1191,11 +1192,17 @@ vcc_expr_cmp(struct vcc *tl, struct expr **e, vcc_type_t fmt)
 			vcc_expr_tostring(tl, e, STRING);
 		not = tl->t->tok == '~' ? "" : "!";
 		vcc_NextToken(tl);
-		ExpectErr(tl, CSTR);
-		re = vcc_regexp(tl);
-		ERRCHK(tl);
+		if (tl->t->tok == CSTR) {
+			re = vcc_regexp(tl);
+			ERRCHK(tl);
+			bprintf(buf, "%sVRT_re_match(ctx, \v1, %s)", not, re);
+		} else {
+			ExpectErr(tl, ID); // XXX: manual expect in else branch?
+			sym = vcc_AddRef(tl, tl->t, SYM_TABLE);
+			bprintf(buf, "%sVRT_table_lookup(ctx, %s, \v1)",
+			    not, sym->rname);
+		}
 		vcc_NextToken(tl);
-		bprintf(buf, "%sVRT_re_match(ctx, \v1, %s)", not, re);
 		*e = vcc_expr_edit(BOOL, buf, *e, NULL);
 		return;
 	}

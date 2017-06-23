@@ -311,6 +311,10 @@ const char * VCC_SymKind(struct vcc *tl, const struct symbol *s);
 typedef void symwalk_f(struct vcc *tl, const struct symbol *s);
 void VCC_WalkSymbols(struct vcc *tl, symwalk_f *func, enum symkind kind);
 
+/* vcc_table.c */
+
+void vcc_ParseTable(struct vcc *tl);
+
 /* vcc_token.c */
 void vcc_Coord(const struct vcc *tl, struct vsb *vsb,
     const struct token *t);

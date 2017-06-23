@@ -25,6 +25,7 @@ libvcc_a_SOURCES = \
 	vcc_parse.c \
 	vcc_storage.c \
 	vcc_symb.c \
+	vcc_table.c \
 	vcc_token.c \
 	vcc_types.c \
 	vcc_utils.c \

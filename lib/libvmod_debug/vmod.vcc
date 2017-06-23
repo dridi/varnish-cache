@@ -223,3 +223,7 @@ Returns the size in bytes of a collection of C-datatypes.
 $Function VOID purge(DURATION ttl = 0, DURATION grace = 0, DURATION keep = 0)
 
 Performs a purge, by default a hard purge where ttl, grace and keep are zero.
+
+$Function BOOL table_lookup(TABLE table, STRING str)
+
+Search for a string in a table.

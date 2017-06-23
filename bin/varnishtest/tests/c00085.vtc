@@ -1,0 +1,38 @@
+varnishtest "table lookup"
+
+server s1 { } -start
+
+varnish v1 -vcl+backend {
+	import debug;
+
+	table empty { }
+
+	table varnish-hosts {
+		"varnish.org";
+		"www.varnish.org";
+		"varnish-cache.org";
+		"www.varnish-cache.org";
+	}
+
+	sub vcl_recv {
+		if (debug.table_lookup(empty, req.http.host)) {
+			return (fail);
+		}
+		if (req.http.host ~ varnish-hosts) {
+			return (synth(200));
+		}
+		if (req.http.host !~ varnish-hosts) {
+			return (synth(404));
+		}
+	}
+} -start
+
+client c1 {
+	txreq
+	rxresp
+	expect resp.status == 404
+
+	txreq -hdr "Host: www.varnish-cache.org"
+	rxresp
+	expect resp.status == 200
+} -run

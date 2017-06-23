@@ -31,6 +31,8 @@
 
 #include "config.h"
 
+#include <stdlib.h>
+
 #include "cache.h"
 
 #include "cache_director.h"
@@ -84,6 +86,42 @@ VRT_acl_match(VRT_CTX, VCL_ACL acl, VCL_IP ip)
 	assert(VSA_Sane(ip));
 	return (acl->match(ctx, ip));
 }
+
+/*--------------------------------------------------------------------*/
+
+static int
+vrt_table_cmp(const void *v1, const void *v2)
+{
+	const struct vrt_table_entry *e1, *e2;
+	int cmp;
+
+	e1 = v1;
+	e2 = v2;
+
+	cmp = e1->len - e2->len;
+	if (cmp != 0)
+		return (cmp);
+
+	return (strcmp(e1->str, e2->str));
+}
+
+int
+VRT_table_lookup(VRT_CTX, VCL_TABLE table, VCL_STRING str)
+{
+	struct vrt_table_entry e;
+	void *res;
+
+	CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);
+	if (str == NULL)
+		str = "";
+	e.str = str;
+	e.len = strlen(str);
+	res = bsearch(&e, table->tbl, table->len, sizeof e, vrt_table_cmp);
+	/* XXX: log results? if yes, new log record? */
+	return (res != NULL);
+}
+
+/*--------------------------------------------------------------------*/
 
 void
 VRT_hit_for_pass(VRT_CTX, VCL_DURATION d)
