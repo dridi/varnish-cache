@@ -41,7 +41,18 @@
 #include "vtcp.h"
 #include "vtim.h"
 
+#include "vmod_vcs.h"
 #include "vcc_vtc_if.h"
+
+VCL_STRING v_matchproto_(td_vmod_version)
+vmod_version(VRT_CTX)
+{
+
+	CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);
+	return (vmod_vcs_version(ctx));
+}
+
+/*--------------------------------------------------------------------*/
 
 VCL_VOID v_matchproto_(td_vtc_barrier_sync)
 vmod_barrier_sync(VRT_CTX, VCL_STRING addr, VCL_DURATION tmo)

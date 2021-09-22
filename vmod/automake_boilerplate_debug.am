@@ -6,7 +6,8 @@ libvmod_debug_la_SOURCES = \
 	vmod_debug.c \
 	vmod_debug_acl.c \
 	vmod_debug_dyn.c \
-	vmod_debug_obj.c
+	vmod_debug_obj.c \
+	vmod_debug_version.c
 
 libvmod_debug_la_CFLAGS =
 

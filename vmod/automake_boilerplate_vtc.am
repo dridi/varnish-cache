@@ -3,7 +3,8 @@
 vmod_LTLIBRARIES += libvmod_vtc.la
 
 libvmod_vtc_la_SOURCES = \
-	vmod_vtc.c
+	vmod_vtc.c \
+	vmod_vtc_version.c
 
 libvmod_vtc_la_CFLAGS =
 

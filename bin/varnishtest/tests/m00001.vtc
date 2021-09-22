@@ -1,0 +1,24 @@
+varnishtest "vmod symbol conflicts"
+
+varnish v1 -vcl {
+	import debug;
+	import vtc;
+
+	backend be none;
+
+	sub vcl_recv {
+		return (synth(200));
+	}
+
+	sub vcl_synth {
+		set resp.http.debug-version = debug.version();
+		set resp.http.vtc-version = vtc.version();
+	}
+} -start
+
+client c1 {
+	txreq
+	rxresp
+	expect resp.http.debug-version ~ "vmod_debug"
+	expect resp.http.vtc-version ~ "vmod_vtc"
+} -run

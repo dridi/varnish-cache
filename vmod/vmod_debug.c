@@ -41,6 +41,8 @@
 
 #include "vsa.h"
 #include "vtim.h"
+
+#include "vmod_vcs.h"
 #include "vcc_debug_if.h"
 #include "VSC_debug.h"
 
@@ -66,6 +68,16 @@ static const int store_ip_token;
 static const int fail_task_fini_token;
 extern void mylog(struct vsl_log *vsl, enum VSL_tag_e tag,
     const char *fmt, ...) v_printflike_(3,4);
+
+/**********************************************************************/
+
+VCL_STRING v_matchproto_(td_xyzzy_version)
+xyzzy_version(VRT_CTX)
+{
+
+	CHECK_OBJ_NOTNULL(ctx, VRT_CTX_MAGIC);
+	return (vmod_vcs_version(ctx));
+}
 
 /**********************************************************************/
 

@@ -43,6 +43,8 @@ $Event event_function
 
 You are not supposed to be able to see this text in the .RST
 
+$Function STRING version()
+
 $Function STRING author(ENUM { phk, des, kristian, mithrandir } person="phk",
 			ENUM { phk, slink, geoff } someone='phk')
 

@@ -60,6 +60,8 @@ it reaches the optional timeout, it fails the VCL transaction.
 MISCELLANEOUS
 =============
 
+$Function STRING version()
+
 $Function BACKEND no_backend()
 
 Fails at backend selection.
