@@ -12,7 +12,6 @@ vmodtoolargs_vtc ?= --strict --boilerplate -o vcc_vtc_if
 vmod_vtc_symbols_regex ?= Vmod_vtc_Data
 
 libvmod_vtc_la_LDFLAGS = \
-	-export-symbols-regex $(vmod_vtc_symbols_regex) \
 	$(AM_LDFLAGS) \
 	$(VMOD_LDFLAGS)
 

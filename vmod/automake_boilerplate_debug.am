@@ -15,7 +15,6 @@ vmodtoolargs_debug ?= --strict --boilerplate -o vcc_debug_if
 vmod_debug_symbols_regex ?= Vmod_debug_Data
 
 libvmod_debug_la_LDFLAGS = \
-	-export-symbols-regex $(vmod_debug_symbols_regex) \
 	$(AM_LDFLAGS) \
 	$(VMOD_LDFLAGS)
 
