@@ -96,7 +96,7 @@ vrb_pull(struct req *req, ssize_t maxsize, objiterate_f *func, void *priv)
 		(void)VFP_Error(vfc, "req.body filters failed");
 		req->req_body_status = BS_ERROR;
 		HSH_DerefBoc(req->wrk, req->body_oc);
-		AZ(HSH_DerefObjCore(req->wrk, &req->body_oc, 0));
+		AZ(HSH_DerefObjCore(req->wrk, &req->body_oc));
 		return (-1);
 	}
 
